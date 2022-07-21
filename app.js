@@ -1,6 +1,7 @@
 const client_id = 'de95ef31db374610aa1ebd2910a8c3c8';
-const client_secret = '****';
+const client_secret = 'c56cf730a6f442ee8fd38ce757721588'
 const redirect_uri = 'http://127.0.0.1:5500/index.html';
+let user_library = new Set();
 
 function requestAuthorization() {
     let url = `https://accounts.spotify.com/authorize?client_id=${client_id}&response_type=code&redirect_uri=${encodeURI(redirect_uri)}&show_dialog=true&scope=playlist-modify-public user-library-read`;
@@ -49,9 +50,9 @@ function handleAuthorizationResponse() {
     }
 }
 
-function getSongs() {
+function retrieveLibrary() {
     let request = 'market=US&limit=50&offset=0';
-    callAPI('GET', 'https://api.spotify.com/v1/me/tracks', request, listSongs);
+    callAPI('GET', 'https://api.spotify.com/v1/me/tracks', request, saveSongs);
 }
 
 function callAPI(method, endpoint, request, callback) {
@@ -63,15 +64,19 @@ function callAPI(method, endpoint, request, callback) {
     xhr.onload = callback;
 }
 
-function listSongs() {
+function saveSongs() {
     if (this.status == 200) {
-        let user_library = JSON.parse(this.responseText).items;
-        user_library.forEach((song, i) => {
-            console.log(song.track.name + ' by ' + song.track.artists[0].name);
+        let song_list = JSON.parse(this.responseText).items;
+        song_list.forEach((song, i) => {
+            user_library.add(song.track.name + ' - ' + song.track.artists[0].name);
         })
     } else {
         alert("ERROR 3: Song retrieval failed");
         console.log("Status: " + this.status);
         console.log("Response: " + this.responseText);
     }
+}
+
+function listSongs() {
+    console.log(user_library);
 }
