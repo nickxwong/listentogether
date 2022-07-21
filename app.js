@@ -1,5 +1,5 @@
 const client_id = 'de95ef31db374610aa1ebd2910a8c3c8';
-const client_secret = 'e6858459085e473f9f13f831fec784c8';
+const client_secret = '****';
 const redirect_uri = 'http://127.0.0.1:5500/index.html';
 
 function requestAuthorization() {
@@ -38,13 +38,39 @@ function getAccessToken(code) {
 }
 
 function handleAuthorizationResponse() {
-    console.log(this.status);
     if (this.status == 200) {
         let data = JSON.parse(this.responseText);
-        const access_token = this.access_token;
-        const refresh_token = this.refresh_token;
+        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('refresh_token', data.refresh_token);
     } else {
         alert("ERROR 2: Authorization failed");
+        console.log("Status: " + this.status);
+        console.log("Response: " + this.responseText);
+    }
+}
+
+function getSongs() {
+    let request = 'market=US&limit=50&offset=0';
+    callAPI('GET', 'https://api.spotify.com/v1/me/tracks', request, listSongs);
+}
+
+function callAPI(method, endpoint, request, callback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open(method, endpoint, true);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('access_token'));
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(request);
+    xhr.onload = callback;
+}
+
+function listSongs() {
+    if (this.status == 200) {
+        let user_library = JSON.parse(this.responseText).items;
+        user_library.forEach((song, i) => {
+            console.log(song.track.name + ' by ' + song.track.artists[0].name);
+        })
+    } else {
+        alert("ERROR 3: Song retrieval failed");
         console.log("Status: " + this.status);
         console.log("Response: " + this.responseText);
     }
