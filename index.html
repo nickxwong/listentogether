@@ -8,10 +8,36 @@
     <title>Document</title>
 </head>
 <body onload="checkRedirect()">
-    <h1>listentogether</h1>
-    <button onclick="requestAuthorization()">Request authorization</button>
-    <button onclick="retrieveLibrary()">Retrieve library</button>
-    <button onclick="listSongs()">List songs</button>
+    <div id="info">
+        <h1 id="title">listentogether</h1>
+        <p>A web application that creates a playlist of mutually-saved songs from users' Spotify or Apple Music libraries</p>    
+    </div>
+    <div id="account-connection">
+        <div class="user" id="a">
+            <div class="header">
+                <h2 class="display-name">User: </h2>
+                <button onclick="requestAuthorization()">Connect account</button>    
+            </div>
+            <div class="profile-pic">
+                <img></img>
+            </div>
+            <div class="stats">
+                <p class="library-size">Library size: </p>
+            </div>
+        </div>
+        <div class="user" id="b">
+            <div class="header">
+                <h2>User: </h2>
+                <button onclick="requestAuthorization()">Connect account</button>    
+            </div>
+            <div class="profile-pic">
+                <img></img>
+            </div>
+            <div class="stats">
+                <p class="library-size">Library size: </p>
+            </div>
+        </div>    
+    </div>
     <script src="app.js"></script>
 </body>
 </html>

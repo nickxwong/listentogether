@@ -1,0 +1,40 @@
+#info {
+    text-align: center;
+}
+
+#info h1,
+#info p {
+    margin: 5px;
+}
+
+#account-connection {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.user {
+    border: 2px solid black;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.user .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user .header button {
+    height: 2rem;
+}
+
+.user .profile-pic img {
+    height: 200px;
+    width: 200px;
+    border: 1px solid black;
+}
+
+.user .stats p {
+    font-weight: 700;
+}

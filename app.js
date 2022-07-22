@@ -43,11 +43,16 @@ function handleAuthorizationResponse() {
         let data = JSON.parse(this.responseText);
         localStorage.setItem('access_token', data.access_token);
         localStorage.setItem('refresh_token', data.refresh_token);
+        retrieveLibrary();
     } else {
         alert("ERROR 2: Authorization failed");
         console.log("Status: " + this.status);
         console.log("Response: " + this.responseText);
     }
+}
+
+function getProfileInfo() {
+    callAPI('GET', 'https://api.spotify.com/v1/me', null, populateProfileInfo);
 }
 
 function retrieveLibrary() {
@@ -64,19 +69,40 @@ function callAPI(method, endpoint, request, callback) {
     xhr.onload = callback;
 }
 
-function saveSongs() {
+function populateProfileInfo() {
+    if (this.status == 200) {
+        let data = JSON.parse(this.responseText);
+        // populate display name
+        const profile_name = document.querySelector('.user#a .header .display-name');
+        profile_name.innerHTML = `User: ${data.display_name}`;
+        // populate profile picture 
+        const profile_pic = document.querySelector('.user#a .profile-pic img');
+        profile_pic.setAttribute('src', data.images[0].url);
+        // populate library size
+        const library_size = document.querySelector('.user#a .stats .library-size');
+        library_size.innerHTML = `Library size: ${user_library.size}`;
+    } else {
+        alert("ERROR: Profile information retrieval failed");
+        console.log("Status: " + this.status);
+        console.log("Response: " + this.responseText);
+    }
+}
+
+function saveSongs(user_id) {
     if (this.status == 200) {
         let song_list = JSON.parse(this.responseText).items;
         song_list.forEach((song, i) => {
             user_library.add(song.track.name + ' - ' + song.track.artists[0].name);
         })
+        getProfileInfo();
     } else {
-        alert("ERROR 3: Song retrieval failed");
+        alert("ERROR: Library retrieval failed");
         console.log("Status: " + this.status);
         console.log("Response: " + this.responseText);
     }
 }
 
 function listSongs() {
-    console.log(user_library);
+    // console.log(user_library);
 }
+
