@@ -43,3 +43,35 @@ body {
     font-weight: 700;
 }
 
+#shared-playlist {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#shared-playlist button {
+    width: 10rem;
+}
+
+#table-container {
+    border: 1px solid black;
+    height: 25vh;
+    width: 30vw;
+    overflow-y: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid black;
+    text-align: left;
+}
+
+#shared-playlist p {
+    margin: 0;
+    text-align: right;
+}

@@ -3,6 +3,7 @@ const client_secret = 'c56cf730a6f442ee8fd38ce757721588'
 const redirect_uri = 'http://127.0.0.1:5500/index.html';
 let library_a = new Set();
 let shared_library = new Set();
+let shared_libary_URI = new Set();
 
 function requestAuthorization() {
     let url = `https://accounts.spotify.com/authorize?client_id=${client_id}&response_type=code&redirect_uri=${encodeURI(redirect_uri)}&show_dialog=true&scope=playlist-modify-public user-library-read`;
@@ -144,8 +145,21 @@ function getLibraryUnion(user_id, user_data) {
             shared_library.add(cur_song);
         }
     })
+    populatePlaylistHTML();
+}
+
+function populatePlaylistHTML() {
+    const table = document.querySelector('table');
     shared_library.forEach((song, i) => {
-        console.log(song);
+        const new_row = document.createElement('tr');
+        const song_data = song.split(' - ');
+        const song_title = document.createElement('td');
+        song_title.textContent = song_data[0];
+        new_row.appendChild(song_title);
+        const song_artist = document.createElement('td');
+        song_artist.textContent = song_data[1];
+        new_row.appendChild(song_artist);
+        table.appendChild(new_row);
     })
-    
+    document.querySelector('#shared-playlist p').textContent = 'Playlist size: ' + shared_library.size;
 }

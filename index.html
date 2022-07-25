@@ -31,7 +31,18 @@
             </div>
         </div>    
     </div>
-    <button onclick="createSharedPlaylist()">Created shared playlist</button>
+    <div id="shared-playlist">
+        <button onclick="createSharedPlaylist()">Created shared playlist</button> 
+        <div id="table-container">
+            <table>
+                <tr>
+                    <th>Song Title</th>
+                    <th>Artist</th>
+                </tr>
+            </table>    
+        </div>
+        <p>Playlist size: </p>
+    </div>
     <script src="app.js"></script>
 </body>
 </html>
