@@ -191,9 +191,15 @@ function createPlaylist(user_id, playlist_name, playlist_desc) {
 
 function addSongs(user_id, user_data) {
     let songs_to_add = new Array();
+    let request = "";
     shared_library_URI.forEach((song_URI, i) => {
         songs_to_add.push(song_URI);
+        if (shared_library_URI.size % 100 == 0) {
+            request = JSON.stringify(songs_to_add); 
+            callAPI('POST', `https://api.spotify.com/v1/playlists/${user_data.id}/tracks`, request, null, user_id);
+            songs_to_add.length = 0; // empty array
+        }
     })
-    let request = JSON.stringify(songs_to_add); 
+    request = JSON.stringify(songs_to_add); 
     callAPI('POST', `https://api.spotify.com/v1/playlists/${user_data.id}/tracks`, request, null, user_id);
 }
