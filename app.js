@@ -3,7 +3,6 @@ const client_secret = 'c56cf730a6f442ee8fd38ce757721588'
 const redirect_uri = 'http://127.0.0.1:5500/index.html';
 let library_a = new Set();
 let library_b = new Set();
-let shared_library = new Set();
 let shared_library_URI = new Set();
 
 function requestAuthorization() {
