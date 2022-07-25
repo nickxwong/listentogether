@@ -152,13 +152,16 @@ function populatePlaylistHTML() {
     const table = document.querySelector('table');
     shared_library.forEach((song, i) => {
         const new_row = document.createElement('tr');
+        // title
         const song_data = song.split(' - ');
         const song_title = document.createElement('td');
         song_title.textContent = song_data[0];
         new_row.appendChild(song_title);
+        // artist
         const song_artist = document.createElement('td');
         song_artist.textContent = song_data[1];
         new_row.appendChild(song_artist);
+        
         table.appendChild(new_row);
     })
     document.querySelector('#shared-playlist p').textContent = 'Playlist size: ' + shared_library.size;
