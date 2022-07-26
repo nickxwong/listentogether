@@ -5,48 +5,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
 <body onload="checkRedirect()">
-    <div id="info">
-        <h1 id="title">listentogether</h1>
-        <p>A web application that creates a playlist of mutually-saved songs from users' Spotify or Apple Music libraries</p>    
-        <button onclick="requestAuthorization()">Connect account</button>    
-    </div>
-    <div id="account-connection">
-        <div class="user" id="a">
-            <div class="header">
-                <h2 class="display-name">User: </h2>
+    <div id="root">
+        <div id="header">
+            <h1>listentogether</h1>
+            <p>Create playlists out of the songs that both you and a friend like</p>
+        </div>
+        <div id="accounts">
+            <div class="user-account" id="user-a">
+                <h2 class="display-name">Display name</h2>
+                <img class="profile-pic">
             </div>
-            <div class="profile-pic">
-                <img></img>
+            <div id="middle-section">
+                <p>Click on the squares to<br>connect your accounts</p>
+                <button onclick="generateSharedPlaylist()">Create Playlist</button>
+            </div>
+            <div class="user-account" id="user-b">
+                <h2 class="display-name">Display name</h2>
+                <img class="profile-pic">
             </div>
         </div>
-        <div class="user" id="b">
-            <div class="header">
-                <h2 class="display-name">User: </h2>
+        <div id="playlist">
+            <div id="save-playlist">
+                <input type="text" placeholder='Playlist name' id="playlist-name">
+                <button onclick="savePlaylist()" >Save</button>
             </div>
-            <div class="profile-pic">
-                <img></img>
+            <div id="container">
+                <table>
+                </table>
             </div>
-        </div>    
-    </div>
-    <div id="shared-playlist">
-        <button onclick="createSharedPlaylist()">Create shared playlist</button> 
-        <div id="table-container">
-            <table>
-                <tr>
-                    <th>Song Title</th>
-                    <th>Artist</th>
-                </tr>
-            </table>    
         </div>
-        <p>Playlist size: </p>    
-    </div>
-    <div id="save-playlist">
-        <label>Playlist name: </label>
-        <input type="text" id="playlist-name">
-        <button type="button" onclick="savePlaylist()">Submit</button>
     </div>
     <script src="app.js"></script>
 </body>

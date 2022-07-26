@@ -4,8 +4,20 @@ const redirect_uri = 'http://127.0.0.1:5500/index.html';
 let library_a = new Set();
 let library_b = new Set();
 let shared_library_URI = new Set();
+let playlist_number = 0;
 
-function requestAuthorization() {
+document.querySelectorAll('.profile-pic').forEach((pic, i) => {
+    pic.addEventListener('click', () => {
+        if (i == 0) {
+            requestAuthorization('a');    
+        } else { // i == 1
+            requestAuthorization('b');
+        }
+    });
+});
+
+function requestAuthorization(user_id) {
+    sessionStorage.setItem('last-clicked', user_id);
     let url = `https://accounts.spotify.com/authorize?client_id=${client_id}&response_type=code&redirect_uri=${encodeURI(redirect_uri)}&show_dialog=true&scope=playlist-modify-public user-library-read`;
     window.location.href = url;
 }
@@ -43,10 +55,10 @@ function getAccessToken(code) {
 function handleAuthorizationResponse() {
     if (this.status == 200) {
         let data = JSON.parse(this.responseText);
-        if (sessionStorage.getItem('access_a') == null) { // first account connection
+        if (sessionStorage.getItem('last-clicked') == 'a') {
             sessionStorage.setItem('access_a', data.access_token);
             getProfileInfo('a');
-        } else { // second account connection
+        } else {
             sessionStorage.setItem('access_b', data.access_token);
             getProfileInfo('b');
         }
@@ -88,11 +100,11 @@ function callAPI(method, endpoint, request, callback, user_id) {
 }
 
 function saveProfileInfo(user_id, user_data) {
-    if (sessionStorage.getItem('display_name_a') == null) { // first account connection
+    if (sessionStorage.getItem('last-clicked') == 'a') {
         sessionStorage.setItem('display_name_a', user_data.display_name);
         sessionStorage.setItem('profile_pic_a', user_data.images[0].url);
         sessionStorage.setItem('profile_id_a', user_data.id);
-    } else { // second account connection
+    } else {
         sessionStorage.setItem('display_name_b', user_data.display_name);
         sessionStorage.setItem('profile_pic_b', user_data.images[0].url);
         sessionStorage.setItem('profile_id_b', user_data.id);
@@ -103,21 +115,21 @@ function saveProfileInfo(user_id, user_data) {
 function populateProfileInfo() {
     // populate profile for user a
     if (sessionStorage.getItem('access_a') != null) {
-        let display_name = document.querySelector('.user#a .header .display-name');
-        let profile_pic = document.querySelector('.user#a .profile-pic img');
-        display_name.innerHTML = `User: ${sessionStorage.getItem('display_name_a')}`;
+        let display_name = document.querySelector('#user-a .display-name');
+        let profile_pic = document.querySelector('#user-a .profile-pic');
+        display_name.innerHTML = `${sessionStorage.getItem('display_name_a')}`;
         profile_pic.setAttribute('src', sessionStorage.getItem('profile_pic_a'));
     }
     // populate profile for user b
     if (sessionStorage.getItem('access_b') != null) {
-        let display_name = document.querySelector('.user#b .header .display-name');
-        let profile_pic = document.querySelector('.user#b .profile-pic img');
-        display_name.innerHTML = `User: ${sessionStorage.getItem('display_name_b')}`;
+        let display_name = document.querySelector('#user-b .display-name');
+        let profile_pic = document.querySelector('#user-b .profile-pic');
+        display_name.innerHTML = `${sessionStorage.getItem('display_name_b')}`;
         profile_pic.setAttribute('src', sessionStorage.getItem('profile_pic_b'));
     }
 }
 
-function createSharedPlaylist() {
+function generateSharedPlaylist() {
     if (sessionStorage.getItem('access_a') == null || sessionStorage.getItem('access_b') == null) {
         alert("Please connect two accounts first.");
     } else {
@@ -170,34 +182,49 @@ function getLibraryUnion() {
             }
         })
     }
-    updatePlaylistSizeHTML();
 }
 
 function populatePlaylistHTML(song) {
     const table = document.querySelector('table');
     const new_row = document.createElement('tr');
+    // number 
+    const number = document.createElement('td');
+    number.classList.add('number');
+    number.textContent = ++playlist_number;
+    new_row.appendChild(number);
     // title
     const song_data = song.split(' - ');
     const song_title = document.createElement('td');
+    song_title.classList.add('track-title');
+    if (song_data[0].length > 64) {
+        song_data[0] = song_data[0].slice(0, 60);
+        song_data[0] += '...)';
+    }
     song_title.textContent = song_data[0];
     new_row.appendChild(song_title);
     // artist
     const song_artist = document.createElement('td');
+    song_artist.classList.add('track-artist');
+    if (song_data[1].length > 20) {
+        song_data[1] = song_data[1].slice(1, 16);
+        song_data[1] += '...)';
+    }
     song_artist.textContent = song_data[1];
     new_row.appendChild(song_artist);
 
     table.appendChild(new_row);
 }
 
-function updatePlaylistSizeHTML() {
-    document.querySelector('#shared-playlist p').textContent = 'Playlist size: ' + shared_library_URI.size;
-}
-
 function savePlaylist() {
     const playlist_name = document.getElementById('playlist-name').value;
-    const playlist_desc = `A playlist by ${sessionStorage.getItem('display_name_a')} and ${sessionStorage.getItem('display_name_b')} | Generated by listentogether`;
-    createPlaylist('a', playlist_name, playlist_desc);
-    // createPlaylist('b', playlist_name, playlist_desc);
+    console.log(playlist_name);
+    if (playlist_name == "") {
+        alert('Please give the playlist a name first.');
+    } else {
+        const playlist_desc = `A playlist by ${sessionStorage.getItem('display_name_a')} and ${sessionStorage.getItem('display_name_b')} | Generated by listentogether`;
+        createPlaylist('a', playlist_name, playlist_desc);    
+        createPlaylist('b', playlist_name, playlist_desc);
+    }
 }
 
 function createPlaylist(user_id, playlist_name, playlist_desc) {
