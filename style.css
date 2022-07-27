@@ -106,11 +106,11 @@ button:hover {
 }
 
 #playlist {
-    width: 270px;
+    width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.25em;
+    gap: 0.5em;
     padding-bottom: 2vh;
 }
 
