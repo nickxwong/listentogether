@@ -1,20 +1,3 @@
-const client_id = 'de95ef31db374610aa1ebd2910a8c3c8';
-const redirect_uri = 'http://127.0.0.1:5500/index.html';
-let library_a = new Set();
-let library_b = new Set();
-let shared_library_URI = new Set();
-let playlist_number = 0;
-
-document.querySelectorAll('.profile-pic').forEach((pic, i) => {
-    pic.addEventListener('click', () => {
-        if (i == 0) {
-            requestAuthorization('a');    
-        } else { // i == 1
-            requestAuthorization('b');
-        }
-    });
-});
-
 function generateCodeVerifier() {
     let string = "";
     const possible_char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.-~';
@@ -264,3 +247,20 @@ function addSongs(user_id, user_data) {
     request = JSON.stringify(songs_to_add); 
     callAPI('POST', `https://api.spotify.com/v1/playlists/${user_data.id}/tracks`, request, null, user_id);
 }
+
+const client_id = 'de95ef31db374610aa1ebd2910a8c3c8';
+const redirect_uri = 'http://127.0.0.1:5500/index.html';
+let library_a = new Set();
+let library_b = new Set();
+let shared_library_URI = new Set();
+let playlist_number = 0;
+
+document.querySelectorAll('.profile-pic').forEach((pic, i) => {
+    pic.addEventListener('click', () => {
+        if (i == 0) {
+            requestAuthorization('a');    
+        } else { // i == 1
+            requestAuthorization('b');
+        }
+    });
+});
