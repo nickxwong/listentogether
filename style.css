@@ -1,24 +1,24 @@
 body {
     margin: 0;
     background: #1F1F20;
-    /* text */
     font-family: 'Rubik', sans-serif;
     color: white;
 }
 
 #root {
-    height: 100vh; 
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    gap: 1.5em;
 }
 
 button {
     background: #1DB954;
     border: none;
     color: white;
-    font-size: 18px;
+    font-size: 1.25em;
     font-weight: 600;
 }
 
@@ -27,57 +27,65 @@ button:hover {
 }
 
 #header {
+    padding-top: 2vh;
     text-align: center;
 }
 
 #header h1 {
     margin: 0;
-    font-size: 40px;
+    font-size: 2.5em;
     font-weight: 600;
 }
 
 #header p {
     margin: 0;
-    font-size: 20px;
+    font-size: 1.25em;
     font-weight: 400;
 }
 
-#accounts,
-#playlist {
-    width: 60%;
+#accounts{
+    min-width: 60vw;
 }
 
 #accounts {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 8vw;
+    gap: 1.5em;
+    
+}
+
+@media (min-width: 47em) {
+    #accounts {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 1em;
+    }
 }
 
 .user-account {
     display: flex;
     flex-direction: column;
-    gap: 5px;
 }
 
 .display-name {
     margin: 0;
-    font-size: 25px;
-    font-weight: 600;
+    font-size: 1.5em;
+}
+
+#user-b .display-name {
+    text-align: right;
 }
 
 .profile-pic {
-    height: 270px;
-    width: 270px;
+    min-height: 270px;
+    min-width: 270px;
     border: 1px solid white;
 }
 
 .profile-pic:hover {
     background: #303030;
-}
-
-#user-b {
-    text-align: right;
 }
 
 #middle-section {
@@ -88,20 +96,29 @@ button:hover {
 
 #middle-section p {
     text-align: center;
-    font-size: 20px;
+    font-size: 1em;
     font-weight: 400;
 }
 
 #middle-section button {
-    width: 70%;
-    height: 30px;
+    height: 2rem;
+    width: 11rem;
 }
 
 #playlist {
+    width: 270px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 0.25em;
+    padding-bottom: 2vh;
+}
+
+@media (min-width: 47em) {
+    #playlist {
+        width: 60vw;
+        min-width: 47em;
+    }
 }
 
 #save-playlist {
@@ -111,19 +128,17 @@ button:hover {
 }
 
 #save-playlist input {
-    width: 60%;
+    width: 40rem; 
     height: 2rem;
     background: #1F1F20;
     border: 1px solid white;
-    /* text */
     color: white;
     font-family: 'Rubik', sans-serif;
-    font-size: 23px;
-    font-weight: 400;
+    font-size: 1em;
 }
 
 #save-playlist button {
-    width: 10%;
+    width: 7rem;
 }
 
 #container {
@@ -141,26 +156,19 @@ table {
 td {
     height: 2.5rem;
     border-bottom: 1px solid white;
-    /* text */
-    font-size: 25px;
+    font-size: 1em;
     font-weight: 400;
 }
 
 td.number {
-    width: 5%;
     text-align: center;
+    width: 1.5em;
 }
 
 td.track-title {
-    width: 70%;
+    width: 10em;
 }
 
 td.track-artist {
-    width: 25%; 
-}
-
-td.track-title,
-td.track-artist {
-    padding-left: 10px;
-    overflow-x: none;
+    width: 3em;
 }
