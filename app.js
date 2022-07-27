@@ -23,7 +23,6 @@ function requestAuthorization(user_id) {
         let url = `https://accounts.spotify.com/authorize?client_id=${client_id}&response_type=code&redirect_uri=${encodeURI(redirect_uri)}&show_dialog=true&scope=playlist-modify-public user-library-read&code_challenge_method=S256&code_challenge=${code_challenge}`;
         window.location.href = url;
     })
-    
 }
 
 function checkRedirect() {
@@ -249,7 +248,7 @@ function addSongs(user_id, user_data) {
 }
 
 const client_id = 'de95ef31db374610aa1ebd2910a8c3c8';
-const redirect_uri = 'http://127.0.0.1:5500/index.html';
+const redirect_uri = 'https://nickxwong.github.io/listentogether/';
 let library_a = new Set();
 let library_b = new Set();
 let shared_library_URI = new Set();
