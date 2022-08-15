@@ -3,6 +3,3 @@ listentogether is a web application that generates playlists from users' Spotify
 
 # Languages & Technologies
 listentogether was created with HTML, CSS, and JavaScript with the use of the Spotify API. 
-
-# Planned features
-- Ability to connect Apple Music accounts
